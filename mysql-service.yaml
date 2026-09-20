@@ -4,10 +4,12 @@ metadata:
   name: mysql
   namespace: default
   labels:
-    app: mysql-deployment
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress-stack
 spec:
   selector:
-    app: mysql-deployment
+    app.kubernetes.io/name: mysql
   ports:
   - port: 3306
     targetPort: 3306

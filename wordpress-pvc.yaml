@@ -3,6 +3,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: wordpress-pvc
   namespace: default
+  labels:
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: wordpress-stack
 spec:
   storageClassName: csi-hostpath-sc
   accessModes:

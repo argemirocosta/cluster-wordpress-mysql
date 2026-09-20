@@ -3,6 +3,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
   namespace: default
+  labels:
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress-stack
 spec:
   accessModes:
   - ReadWriteOnce

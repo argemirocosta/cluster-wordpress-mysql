@@ -4,18 +4,22 @@ metadata:
   name:  wordpress-deployment
   namespace: default
   labels:
-    app:  wordpress-deployment
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/component: web
+    app.kubernetes.io/part-of: wordpress-stack
 spec:
   selector:
     matchLabels:
-      app: wordpress-deployment
+      app.kubernetes.io/name: wordpress
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app:  wordpress-deployment
+        app.kubernetes.io/name: wordpress
+        app.kubernetes.io/component: web
+        app.kubernetes.io/part-of: wordpress-stack
     spec:
       containers:
       - name:  wordpress-image

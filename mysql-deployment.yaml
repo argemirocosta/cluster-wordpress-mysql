@@ -4,18 +4,22 @@ metadata:
   name:  mysql-deployment
   namespace: default
   labels:
-    app:  mysql-deployment
+    app.kubernetes.io/name: mysql
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wordpress-stack
 spec:
   selector:
     matchLabels:
-      app: mysql-deployment
+      app.kubernetes.io/name: mysql
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app:  mysql-deployment
+        app.kubernetes.io/name: mysql
+        app.kubernetes.io/component: database
+        app.kubernetes.io/part-of: wordpress-stack
     spec:
       containers:
       - name:  mysql-image
