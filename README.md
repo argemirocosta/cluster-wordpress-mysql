@@ -6,7 +6,7 @@ Kubernetes manifests for a WordPress + MySQL (MariaDB) environment.
 
 | File | Purpose |
 |---|---|
-| `mysql-secret.yaml` | Database credentials (local/study use only, see below) |
+| `mysql-secret.yaml` | Database credentials: `root-password` for administration, `user`/`password` for the WordPress account (local/study use only, see below) |
 | `mysql-pvc.yaml` | 2Gi volume for the database (default `standard` storage class) |
 | `mysql-deployment.yaml` | MariaDB 10.6, single replica, with probes and resource limits |
 | `mysql-service.yaml` | Internal `ClusterIP` service (`mysql:3306`) used by WordPress |
@@ -161,6 +161,20 @@ When to use which: Level 1 for day-to-day resets and re-testing the install. Lev
 ### Changing the WordPress version on an existing volume
 
 Do not just change the image tag on a volume that already holds WordPress files. The image only copies the WordPress core into `/var/www/html` when the directory is empty, so a newer PHP running old core files crashes with fatal errors (for example `__autoload() is no longer supported`). Reset the volume (Level 1) when moving between major versions on a lab environment, or back up and replace the core files deliberately.
+
+## Database user
+
+WordPress does not connect as `root`. `mysql-deployment.yaml` creates a dedicated `wordpress` user (from the `user` and `password` keys of `mysql-secret`) with privileges only on the `wordpress` database. `root` stays available for administration through `root-password`.
+
+Why: if the WordPress application is compromised (a vulnerable plugin, for example), the attacker gets access to a single database instead of the whole server, and cannot create users or read other databases.
+
+Check it:
+
+```bash
+kubectl exec deploy/mysql-deployment -- sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "SHOW GRANTS FOR wordpress@\"%\""'
+```
+
+Important: the MariaDB image creates `MYSQL_USER` only on the **first initialization of an empty volume**. If you change `user` or `password` in the Secret later, the existing database keeps the old account and WordPress fails with `Access denied for user`. Either change the password inside MariaDB (`ALTER USER`) or reset the project (Level 1 in [Resetting the environment](#resetting-the-environment)), which recreates the volume and loses the data.
 
 ## About `mysql-secret.yaml`
 
