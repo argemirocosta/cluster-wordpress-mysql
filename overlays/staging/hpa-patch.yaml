@@ -1,0 +1,7 @@
+# Autoscaling capped at 2 replicas in staging.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wordpress-hpa
+spec:
+  maxReplicas: 2

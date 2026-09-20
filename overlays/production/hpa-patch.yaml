@@ -1,0 +1,9 @@
+# Never scale below the 2 replicas set in replicas-patch.yaml,
+# otherwise the autoscaler would shrink production back to 1.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wordpress-hpa
+spec:
+  minReplicas: 2
+  maxReplicas: 5

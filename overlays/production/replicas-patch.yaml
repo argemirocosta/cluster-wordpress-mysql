@@ -1,0 +1,8 @@
+# Two WordPress replicas so one pod can fail or restart without downtime.
+# The database stays at a single replica (MariaDB is not clustered here).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-deployment
+spec:
+  replicas: 2

@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Every resource from the base is moved into this namespace.
+namespace: wordpress-staging
+
+resources:
+  - ../../base
+  - namespace.yaml
+
+# Label all resources with the environment.
+labels:
+  - pairs:
+      environment: staging
+
+patches:
+  - path: resources-patch.yaml
+  - path: storage-patch.yaml
+  - path: hpa-patch.yaml

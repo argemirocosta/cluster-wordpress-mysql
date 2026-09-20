@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wordpress-staging
+  labels:
+    app.kubernetes.io/part-of: wordpress-stack
+    environment: staging
