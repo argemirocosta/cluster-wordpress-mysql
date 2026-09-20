@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Kubernetes / Helm
+*.kubeconfig
+kubeconfig
+.kube/
+charts/*.tgz
+
+# Secrets / env
+*.env
+.env.*
+*.pem
+*.key
+*.crt
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+
+# Docs
+doc/
