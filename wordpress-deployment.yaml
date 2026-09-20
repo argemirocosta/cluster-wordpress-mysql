@@ -23,7 +23,7 @@ spec:
           # - Each init container must complete successfully before the next one starts.
       containers:
       - name:  wordpress-image
-        image:  wordpress:4.8-apache
+        image:  wordpress:6-apache
         resources:
           requests:
             cpu: 250m
@@ -60,6 +60,12 @@ spec:
               key: root-password
         - name: WORDPRESS_DB_NAME
           value: wordpress
+        # Derive the site URL from the request host, so it works behind any
+        # minikube tunnel / port-forward port instead of the one stored in the DB.
+        - name: WORDPRESS_CONFIG_EXTRA
+          value: |
+            define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST']);
+            define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
         ports:
         - containerPort: 80
           name: wordpress
