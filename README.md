@@ -1,4 +1,4 @@
-# cluster-wordpress-mysql
+# wordpress-mysql-k8s
 
 Kubernetes manifests for a WordPress + MySQL (MariaDB) environment, organised with [Kustomize](https://kustomize.io/) into a shared `base/` and two environments: **staging** and **production**.
 
